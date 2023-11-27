@@ -1,3 +1,5 @@
+// mainwindow.cpp
+
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "employee.h"
@@ -45,6 +47,9 @@ void MainWindow::on_AddButton_clicked() {
 
     Employee employee(name, 0, typeOfWork, time);
 
+    // Збільшуємо лічильник послуг для працівника
+    employee.incrementServiceCount();
+
     employees.push_back(employee);
 
     QStandardItem *item = new QStandardItem(employee.name + " - " + typeOfWork + " " + employee.time.toString());
@@ -57,3 +62,15 @@ void MainWindow::on_AddButton_clicked() {
     }
 }
 
+// Функція для знаходження кількості послуг, які були зроблені працівником
+int MainWindow::countServices(QString employeeName) {
+    int serviceCount = 0;
+
+    for (const auto& employee : employees) {
+        if (employee.name == employeeName) {
+            serviceCount += employee.serviceCount;
+        }
+    }
+
+    return serviceCount;
+}
